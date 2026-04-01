@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/core_service_dev
+    username: dev_user
+    password: jpbsL4L18kWrT
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      minimum-idle: 2
+      maximum-pool-size: 5
+      pool-name: CoreServiceDevPool
+      leak-detection-threshold: 30000
+      connection-timeout: 30000
+
+  jpa:
+    show-sql: true
+
+  flyway:
+    clean-disabled: false
+
+# ── Dev Logging ──
+logging:
+  level:
+    root: INFO
+    com.lucienvirecourt: DEBUG
+    com.zaxxer.hikari: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql: TRACE

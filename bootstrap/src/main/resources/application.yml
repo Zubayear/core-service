@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: bootstrap
+  profiles:
+    active: @activeProfile@
+
+  # ── Common JPA Config ──
+  jpa:
+    defer-datasource-initialization: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        connection:
+          provider_disables_autocommit: true
+    open-in-view: false
+    show-sql: false
+
+  # ── Common Flyway Config ──
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    schemas: public
+    table: flyway_schema_history
+    baseline-on-migrate: true
+    baseline-version: 0
+
+  # ── Common HikariCP Defaults ──
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      auto-commit: false
+      data-source-properties:
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        prepStmtCacheSqlLimit: 2048
+        reWriteBatchedInserts: true
+
+# ── Actuator ──
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never

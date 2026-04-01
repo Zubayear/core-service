@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://staging-db:5432/core_service_staging}
+    username: ${DATABASE_USER:staging_user}
+    password: ${DATABASE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 15
+      pool-name: CoreServiceStagingPool
+      leak-detection-threshold: 60000
+      connection-timeout: 20000
+      idle-timeout: 300000
+      max-lifetime: 1200000
+
+  jpa:
+    show-sql: false
+
+  flyway:
+    clean-disabled: true
+
+logging:
+  level:
+    root: INFO
+    com.lucienvirecourt: DEBUG
+    com.zaxxer.hikari: INFO

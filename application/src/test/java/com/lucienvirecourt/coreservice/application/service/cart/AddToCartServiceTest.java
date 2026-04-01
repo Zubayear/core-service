@@ -12,6 +12,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.lucienvirecourt.coreservice.application.port.in.cart.ProductNotFoundException;
+import com.lucienvirecourt.coreservice.application.port.in.security.CurrentUserPort;
 import com.lucienvirecourt.coreservice.application.port.out.persistence.CartRepository;
 import com.lucienvirecourt.coreservice.application.port.out.persistence.ProductRepository;
 import com.lucienvirecourt.coreservice.model.cart.Cart;
@@ -32,8 +33,9 @@ class AddToCartServiceTest {
 
   private final CartRepository cartRepository = mock(CartRepository.class);
   private final ProductRepository productRepository = mock(ProductRepository.class);
+  private final CurrentUserPort currentUserPort = mock(CurrentUserPort.class);
   private final AddToCartService addToCartService =
-      new AddToCartService(cartRepository, productRepository);
+      new AddToCartService(cartRepository, productRepository, currentUserPort);
 
   @BeforeEach
   void initTestDoubles() {

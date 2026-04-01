@@ -4,6 +4,7 @@ import com.lucienvirecourt.coreservice.application.port.in.cart.AddToCartUseCase
 import com.lucienvirecourt.coreservice.application.port.in.cart.EmptyCartUseCase;
 import com.lucienvirecourt.coreservice.application.port.in.cart.GetCartUseCase;
 import com.lucienvirecourt.coreservice.application.port.in.product.FindProductsUseCase;
+import com.lucienvirecourt.coreservice.application.port.in.security.CurrentUserPort;
 import com.lucienvirecourt.coreservice.application.port.out.persistence.CartRepository;
 import com.lucienvirecourt.coreservice.application.port.out.persistence.ProductRepository;
 import com.lucienvirecourt.coreservice.application.service.cart.AddToCartService;
@@ -23,27 +24,32 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class SpringAppConfig {
 
-  @Autowired CartRepository cartRepository;
+    @Autowired
+    CartRepository cartRepository;
 
-  @Autowired ProductRepository productRepository;
+    @Autowired
+    ProductRepository productRepository;
 
-  @Bean
-  GetCartUseCase getCartUseCase() {
-    return new GetCartService(cartRepository);
-  }
+    @Autowired
+    CurrentUserPort currentUserPort;
 
-  @Bean
-  EmptyCartUseCase emptyCartUseCase() {
-    return new EmptyCartService(cartRepository);
-  }
+    @Bean
+    GetCartUseCase getCartUseCase() {
+        return new GetCartService(cartRepository);
+    }
 
-  @Bean
-  FindProductsUseCase findProductsUseCase() {
-    return new FindProductsService(productRepository);
-  }
+    @Bean
+    EmptyCartUseCase emptyCartUseCase() {
+        return new EmptyCartService(cartRepository);
+    }
 
-  @Bean
-  AddToCartUseCase addToCartUseCase() {
-    return new AddToCartService(cartRepository, productRepository);
-  }
+    @Bean
+    FindProductsUseCase findProductsUseCase() {
+        return new FindProductsService(productRepository);
+    }
+
+    @Bean
+    AddToCartUseCase addToCartUseCase() {
+        return new AddToCartService(cartRepository, productRepository, currentUserPort);
+    }
 }

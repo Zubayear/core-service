@@ -22,7 +22,7 @@ public class CartLineItem {
   private int quantity;
 
   public void increaseQuantityBy(int augend, int itemsInStock)
-    throws NotEnoughItemsInStockException {
+      throws NotEnoughItemsInStockException {
     if (augend < 1) {
       throw new IllegalArgumentException("You must add at least one item");
     }
@@ -30,9 +30,9 @@ public class CartLineItem {
     int newQuantity = quantity + augend;
     if (itemsInStock < newQuantity) {
       throw new NotEnoughItemsInStockException(
-        "Product %s has less items in stock (%d) than the requested total quantity (%d)"
-          .formatted(product.id(), product.itemsInStock(), newQuantity),
-        product.itemsInStock());
+          "Product %s has less items in stock (%d) than the requested total quantity (%d)"
+              .formatted(product.id(), product.itemsInStock(), newQuantity),
+          product.itemsInStock());
     }
 
     this.quantity = newQuantity;

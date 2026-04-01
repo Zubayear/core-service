@@ -2,7 +2,6 @@ package com.lucienvirecourt.coreservice.application.port.out.persistence;
 
 import com.lucienvirecourt.coreservice.model.product.Product;
 import com.lucienvirecourt.coreservice.model.product.ProductId;
-
 import java.util.List;
 import java.util.Optional;
 

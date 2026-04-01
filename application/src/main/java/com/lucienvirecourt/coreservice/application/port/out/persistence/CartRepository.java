@@ -2,7 +2,6 @@ package com.lucienvirecourt.coreservice.application.port.out.persistence;
 
 import com.lucienvirecourt.coreservice.model.cart.Cart;
 import com.lucienvirecourt.coreservice.model.customer.CustomerId;
-
 import java.util.Optional;
 
 /**

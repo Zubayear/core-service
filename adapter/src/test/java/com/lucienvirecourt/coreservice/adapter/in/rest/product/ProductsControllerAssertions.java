@@ -6,13 +6,11 @@ import static org.springframework.http.HttpStatus.OK;
 import com.lucienvirecourt.coreservice.model.product.Product;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
-
 import java.util.List;
 
 public final class ProductsControllerAssertions {
 
-  private ProductsControllerAssertions() {
-  }
+  private ProductsControllerAssertions() {}
 
   public static void assertThatResponseIsProduct(Response response, Product product) {
     assertThat(response.statusCode()).isEqualTo(OK.value());
@@ -35,7 +33,7 @@ public final class ProductsControllerAssertions {
   }
 
   static void assertThatJsonProductMatchesProduct(
-    JsonPath json, boolean jsonHasDescription, String prefix, Product product) {
+      JsonPath json, boolean jsonHasDescription, String prefix, Product product) {
     assertThat(json.getString(prefix + "id")).isEqualTo(product.id().value());
     assertThat(json.getString(prefix + "name")).isEqualTo(product.name());
 
@@ -46,9 +44,9 @@ public final class ProductsControllerAssertions {
     }
 
     assertThat(json.getString(prefix + "price.currency"))
-      .isEqualTo(product.price().currency().getCurrencyCode());
+        .isEqualTo(product.price().currency().getCurrencyCode());
     assertThat(json.getDouble(prefix + "price.amount"))
-      .isEqualTo(product.price().amount().doubleValue());
+        .isEqualTo(product.price().amount().doubleValue());
 
     assertThat(json.getInt(prefix + "itemsInStock")).isEqualTo(product.itemsInStock());
   }

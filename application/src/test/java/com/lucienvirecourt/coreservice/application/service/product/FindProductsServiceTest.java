@@ -9,9 +9,7 @@ import static org.mockito.Mockito.when;
 
 import com.lucienvirecourt.coreservice.application.port.out.persistence.ProductRepository;
 import com.lucienvirecourt.coreservice.model.product.Product;
-
 import java.util.List;
-
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 
@@ -22,20 +20,20 @@ class FindProductsServiceTest {
 
   private final ProductRepository productRepository = mock(ProductRepository.class);
   private final FindProductsService findProductsService =
-    new FindProductsService(productRepository);
+      new FindProductsService(productRepository);
 
   @Test
   void givenASearchQuery_findByNameOrDescription_returnsTheProductsReturnedByThePersistencePort() {
     when(productRepository.findByNameOrDescription("one")).thenReturn(List.of(TEST_PRODUCT_1));
     when(productRepository.findByNameOrDescription("two")).thenReturn(List.of(TEST_PRODUCT_2));
     when(productRepository.findByNameOrDescription("one-two"))
-      .thenReturn(List.of(TEST_PRODUCT_1, TEST_PRODUCT_2));
+        .thenReturn(List.of(TEST_PRODUCT_1, TEST_PRODUCT_2));
     when(productRepository.findByNameOrDescription("empty")).thenReturn(List.of());
 
     assertThat(findProductsService.findByNameOrDescription("one")).containsExactly(TEST_PRODUCT_1);
     assertThat(findProductsService.findByNameOrDescription("two")).containsExactly(TEST_PRODUCT_2);
     assertThat(findProductsService.findByNameOrDescription("one-two"))
-      .containsExactly(TEST_PRODUCT_1, TEST_PRODUCT_2);
+        .containsExactly(TEST_PRODUCT_1, TEST_PRODUCT_2);
     assertThat(findProductsService.findByNameOrDescription("empty")).isEmpty();
   }
 

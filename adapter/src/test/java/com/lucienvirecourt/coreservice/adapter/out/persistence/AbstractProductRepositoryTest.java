@@ -5,17 +5,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.lucienvirecourt.coreservice.application.port.out.persistence.ProductRepository;
 import com.lucienvirecourt.coreservice.model.product.Product;
 import com.lucienvirecourt.coreservice.model.product.ProductId;
-
 import java.util.List;
 import java.util.Optional;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class AbstractProductRepositoryTest {
 
-  @Autowired
-  ProductRepository productRepository;
+  @Autowired ProductRepository productRepository;
 
   @Test
   void givenTestProductsAndATestProductId_findById_returnsATestProduct() {
@@ -37,7 +34,7 @@ public abstract class AbstractProductRepositoryTest {
 
   @Test
   void
-  givenTestProductsAndASearchQueryNotMatchingAndProduct_findByNameOrDescription_returnsAnEmptyList() {
+      givenTestProductsAndASearchQueryNotMatchingAndProduct_findByNameOrDescription_returnsAnEmptyList() {
     String query = "not matching any product";
 
     List<Product> products = productRepository.findByNameOrDescription(query);
@@ -47,7 +44,7 @@ public abstract class AbstractProductRepositoryTest {
 
   @Test
   void
-  givenTestProductsAndASearchQueryMatchingOneProduct_findByNameOrDescription_returnsThatProduct() {
+      givenTestProductsAndASearchQueryMatchingOneProduct_findByNameOrDescription_returnsThatProduct() {
     String query = "lights";
 
     List<Product> products = productRepository.findByNameOrDescription(query);
@@ -57,12 +54,12 @@ public abstract class AbstractProductRepositoryTest {
 
   @Test
   void
-  givenTestProductsAndASearchQueryMatchingTwoProducts_findByNameOrDescription_returnsThoseProducts() {
+      givenTestProductsAndASearchQueryMatchingTwoProducts_findByNameOrDescription_returnsThoseProducts() {
     String query = "monitor";
 
     List<Product> products = productRepository.findByNameOrDescription(query);
 
     assertThat(products)
-      .containsExactlyInAnyOrder(DemoProducts.COMPUTER_MONITOR, DemoProducts.MONITOR_DESK_MOUNT);
+        .containsExactlyInAnyOrder(DemoProducts.COMPUTER_MONITOR, DemoProducts.MONITOR_DESK_MOUNT);
   }
 }

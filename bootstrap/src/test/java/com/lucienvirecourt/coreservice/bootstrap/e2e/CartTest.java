@@ -27,22 +27,21 @@ class CartTest {
   private static final CustomerId TEST_CUSTOMER_ID = new CustomerId(61157);
   private static final String CARTS_PATH = "/carts/" + TEST_CUSTOMER_ID.value();
 
-  @LocalServerPort
-  private Integer port;
+  @LocalServerPort private Integer port;
 
   @Test
   @Order(1)
   void givenAnEmptyCart_addLineItem_addsTheLineItemAndReturnsTheCartWithTheAddedItem()
-    throws NotEnoughItemsInStockException {
+      throws NotEnoughItemsInStockException {
     Response response =
-      given()
-        .port(port)
-        .queryParam("productId", LED_LIGHTS.id().value())
-        .queryParam("quantity", 3)
-        .post(CARTS_PATH + "/line-items")
-        .then()
-        .extract()
-        .response();
+        given()
+            .port(port)
+            .queryParam("productId", LED_LIGHTS.id().value())
+            .queryParam("quantity", 3)
+            .post(CARTS_PATH + "/line-items")
+            .then()
+            .extract()
+            .response();
 
     Cart expectedCart = new Cart(TEST_CUSTOMER_ID);
     expectedCart.addProduct(LED_LIGHTS, 3);
@@ -53,16 +52,16 @@ class CartTest {
   @Test
   @Order(2)
   void givenACartWithOneLineItem_addLineItem_addsTheLineItemAndReturnsACartWithTwoLineItems()
-    throws NotEnoughItemsInStockException {
+      throws NotEnoughItemsInStockException {
     Response response =
-      given()
-        .port(port)
-        .queryParam("productId", MONITOR_DESK_MOUNT.id().value())
-        .queryParam("quantity", 1)
-        .post(CARTS_PATH + "/line-items")
-        .then()
-        .extract()
-        .response();
+        given()
+            .port(port)
+            .queryParam("productId", MONITOR_DESK_MOUNT.id().value())
+            .queryParam("quantity", 1)
+            .post(CARTS_PATH + "/line-items")
+            .then()
+            .extract()
+            .response();
 
     Cart expectedCart = new Cart(TEST_CUSTOMER_ID);
     expectedCart.addProduct(LED_LIGHTS, 3);

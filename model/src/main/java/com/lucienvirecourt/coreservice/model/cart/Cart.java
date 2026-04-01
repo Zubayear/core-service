@@ -4,11 +4,9 @@ import com.lucienvirecourt.coreservice.model.customer.CustomerId;
 import com.lucienvirecourt.coreservice.model.money.Money;
 import com.lucienvirecourt.coreservice.model.product.Product;
 import com.lucienvirecourt.coreservice.model.product.ProductId;
-
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
@@ -22,15 +20,14 @@ import lombok.experimental.Accessors;
 @RequiredArgsConstructor
 public class Cart {
 
-  @Getter
-  private final CustomerId id; // cart ID = customer ID
+  @Getter private final CustomerId id; // cart ID = customer ID
 
   private final Map<ProductId, CartLineItem> lineItems = new LinkedHashMap<>();
 
   public void addProduct(Product product, int quantity) throws NotEnoughItemsInStockException {
     lineItems
-      .computeIfAbsent(product.id(), ignored -> new CartLineItem(product))
-      .increaseQuantityBy(quantity, product.itemsInStock());
+        .computeIfAbsent(product.id(), ignored -> new CartLineItem(product))
+        .increaseQuantityBy(quantity, product.itemsInStock());
   }
 
   // Use only for reconstituting a Cart entity from the database

@@ -6,5 +6,4 @@ import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
 @ActiveProfiles("test-with-postgresql")
-class JpaProductRepositoryTest extends AbstractProductRepositoryTest {
-}
+class JpaProductRepositoryTest extends AbstractProductRepositoryTest {}

@@ -8,11 +8,10 @@ import org.springframework.http.HttpStatus;
 
 public final class HttpTestCommons {
 
-  private HttpTestCommons() {
-  }
+  private HttpTestCommons() {}
 
   public static void assertThatResponseIsError(
-    Response response, HttpStatus expectedStatus, String expectedErrorMessage) {
+      Response response, HttpStatus expectedStatus, String expectedErrorMessage) {
     assertThat(response.getStatusCode()).isEqualTo(expectedStatus.value());
 
     JsonPath json = response.jsonPath();

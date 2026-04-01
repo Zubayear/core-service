@@ -10,8 +10,7 @@ import io.restassured.response.Response;
 
 public final class CartsControllerAssertions {
 
-  private CartsControllerAssertions() {
-  }
+  private CartsControllerAssertions() {}
 
   public static void assertThatResponseIsCart(Response response, Cart cart) {
     assertThat(response.statusCode()).isEqualTo(OK.value());
@@ -24,13 +23,13 @@ public final class CartsControllerAssertions {
       String lineItemPrefix = "lineItems[%d].".formatted(i);
 
       assertThat(json.getString(lineItemPrefix + "productId"))
-        .isEqualTo(lineItem.product().id().value());
+          .isEqualTo(lineItem.product().id().value());
       assertThat(json.getString(lineItemPrefix + "productName"))
-        .isEqualTo(lineItem.product().name());
+          .isEqualTo(lineItem.product().name());
       assertThat(json.getString(lineItemPrefix + "price.currency"))
-        .isEqualTo(lineItem.product().price().currency().getCurrencyCode());
+          .isEqualTo(lineItem.product().price().currency().getCurrencyCode());
       assertThat(json.getDouble(lineItemPrefix + "price.amount"))
-        .isEqualTo(lineItem.product().price().amount().doubleValue());
+          .isEqualTo(lineItem.product().price().amount().doubleValue());
       assertThat(json.getInt(lineItemPrefix + "quantity")).isEqualTo(lineItem.quantity());
     }
 
@@ -38,9 +37,9 @@ public final class CartsControllerAssertions {
 
     if (cart.subTotal() != null) {
       assertThat(json.getString("subTotal.currency"))
-        .isEqualTo(cart.subTotal().currency().getCurrencyCode());
+          .isEqualTo(cart.subTotal().currency().getCurrencyCode());
       assertThat(json.getDouble("subTotal.amount"))
-        .isEqualTo(cart.subTotal().amount().doubleValue());
+          .isEqualTo(cart.subTotal().amount().doubleValue());
     } else {
       assertThat(json.getString("subTotal")).isNull();
     }

@@ -19,9 +19,7 @@ import com.lucienvirecourt.coreservice.model.cart.NotEnoughItemsInStockException
 import com.lucienvirecourt.coreservice.model.customer.CustomerId;
 import com.lucienvirecourt.coreservice.model.product.Product;
 import com.lucienvirecourt.coreservice.model.product.ProductId;
-
 import java.util.Optional;
-
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,7 +33,7 @@ class AddToCartServiceTest {
   private final CartRepository cartRepository = mock(CartRepository.class);
   private final ProductRepository productRepository = mock(ProductRepository.class);
   private final AddToCartService addToCartService =
-    new AddToCartService(cartRepository, productRepository);
+      new AddToCartService(cartRepository, productRepository);
 
   @BeforeEach
   void initTestDoubles() {
@@ -46,7 +44,7 @@ class AddToCartServiceTest {
 
   @Test
   void givenExistingCart_addToCart_cartWithAddedProductIsSavedAndReturned()
-    throws NotEnoughItemsInStockException, ProductNotFoundException {
+      throws NotEnoughItemsInStockException, ProductNotFoundException {
     Cart persistedCart = new Cart(TEST_CUSTOMER_ID);
     persistedCart.addProduct(TEST_PRODUCT_1, 1);
 
@@ -65,7 +63,7 @@ class AddToCartServiceTest {
 
   @Test
   void givenNoExistingCart_addToCart_cartWithAddedProductIsSavedAndReturned()
-    throws NotEnoughItemsInStockException, ProductNotFoundException {
+      throws NotEnoughItemsInStockException, ProductNotFoundException {
     Cart cart = addToCartService.addToCart(TEST_CUSTOMER_ID, TEST_PRODUCT_1.id(), 2);
 
     verify(cartRepository).save(cart);
@@ -90,7 +88,7 @@ class AddToCartServiceTest {
     int quantity = 0;
 
     ThrowingCallable invocation =
-      () -> addToCartService.addToCart(TEST_CUSTOMER_ID, TEST_PRODUCT_1.id(), quantity);
+        () -> addToCartService.addToCart(TEST_CUSTOMER_ID, TEST_PRODUCT_1.id(), quantity);
 
     assertThatIllegalArgumentException().isThrownBy(invocation);
     verify(cartRepository, never()).save(any());

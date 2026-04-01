@@ -11,9 +11,7 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import com.lucienvirecourt.coreservice.application.port.in.product.FindProductsUseCase;
 import com.lucienvirecourt.coreservice.model.product.Product;
 import io.restassured.response.Response;
-
 import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -28,11 +26,9 @@ class ProductsControllerTest {
   private static final Product TEST_PRODUCT_1 = createTestProduct(euros(19, 99));
   private static final Product TEST_PRODUCT_2 = createTestProduct(euros(25, 99));
 
-  @LocalServerPort
-  private Integer port;
+  @LocalServerPort private Integer port;
 
-  @MockitoBean
-  FindProductsUseCase findProductsUseCase;
+  @MockitoBean FindProductsUseCase findProductsUseCase;
 
   @Test
   void givenAQueryAndAListOfProducts_findProducts_requestsProductsViaQueryAndReturnsThem() {
@@ -42,7 +38,7 @@ class ProductsControllerTest {
     when(findProductsUseCase.findByNameOrDescription(query)).thenReturn(productList);
 
     Response response =
-      given().port(port).queryParam("query", query).get("/products").then().extract().response();
+        given().port(port).queryParam("query", query).get("/products").then().extract().response();
 
     assertThatResponseIsProductList(response, productList);
   }
@@ -58,10 +54,10 @@ class ProductsControllerTest {
   void givenATooShortQuery_findProducts_returnsError() {
     String query = "e";
     when(findProductsUseCase.findByNameOrDescription(query))
-      .thenThrow(IllegalArgumentException.class);
+        .thenThrow(IllegalArgumentException.class);
 
     Response response =
-      given().port(port).queryParam("query", query).get("/products").then().extract().response();
+        given().port(port).queryParam("query", query).get("/products").then().extract().response();
 
     assertThatResponseIsError(response, BAD_REQUEST, "Invalid 'query'");
   }

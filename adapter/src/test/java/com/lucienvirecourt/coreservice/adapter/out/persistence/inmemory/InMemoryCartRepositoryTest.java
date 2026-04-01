@@ -6,5 +6,4 @@ import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
 @ActiveProfiles("test")
-class InMemoryCartRepositoryTest extends AbstractCartRepositoryTest {
-}
+class InMemoryCartRepositoryTest extends AbstractCartRepositoryTest {}

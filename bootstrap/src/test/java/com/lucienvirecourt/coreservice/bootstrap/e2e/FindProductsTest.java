@@ -6,9 +6,7 @@ import static com.lucienvirecourt.coreservice.adapter.out.persistence.DemoProduc
 import static io.restassured.RestAssured.given;
 
 import io.restassured.response.Response;
-
 import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -19,15 +17,14 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("test-with-postgresql")
 class FindProductsTest {
 
-  @LocalServerPort
-  private Integer port;
+  @LocalServerPort private Integer port;
 
   @Test
   void givenTestProductsAndAQuery_findProducts_returnsMatchingProducts() {
     String query = "monitor";
 
     Response response =
-      given().port(port).queryParam("query", query).get("/products").then().extract().response();
+        given().port(port).queryParam("query", query).get("/products").then().extract().response();
 
     assertThatResponseIsProductList(response, List.of(COMPUTER_MONITOR, MONITOR_DESK_MOUNT));
   }

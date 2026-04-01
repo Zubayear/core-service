@@ -35,15 +35,11 @@ class CartsControllerTest {
   private static final Product TEST_PRODUCT_1 = createTestProduct(euros(19, 99));
   private static final Product TEST_PRODUCT_2 = createTestProduct(euros(25, 99));
 
-  @LocalServerPort
-  private Integer port;
+  @LocalServerPort private Integer port;
 
-  @MockitoBean
-  AddToCartUseCase addToCartUseCase;
-  @MockitoBean
-  GetCartUseCase getCartUseCase;
-  @MockitoBean
-  EmptyCartUseCase emptyCartUseCase;
+  @MockitoBean AddToCartUseCase addToCartUseCase;
+  @MockitoBean GetCartUseCase getCartUseCase;
+  @MockitoBean EmptyCartUseCase emptyCartUseCase;
 
   @Test
   void givenASyntacticallyInvalidCustomerId_getCart_returnsAnError() {
@@ -56,7 +52,7 @@ class CartsControllerTest {
 
   @Test
   void givenAValidCustomerIdAndACart_getCart_requestsCartFromUseCaseAndReturnsIt()
-    throws NotEnoughItemsInStockException {
+      throws NotEnoughItemsInStockException {
     CustomerId customerId = TEST_CUSTOMER_ID;
 
     Cart cart = new Cart(customerId);
@@ -66,14 +62,14 @@ class CartsControllerTest {
     when(getCartUseCase.getCart(customerId)).thenReturn(cart);
 
     Response response =
-      given().port(port).get("/carts/" + customerId.value()).then().extract().response();
+        given().port(port).get("/carts/" + customerId.value()).then().extract().response();
 
     assertThatResponseIsCart(response, cart);
   }
 
   @Test
   void givenSomeTestData_addLineItem_invokesAddToCartUseCaseAndReturnsUpdatedCart()
-    throws NotEnoughItemsInStockException, ProductNotFoundException {
+      throws NotEnoughItemsInStockException, ProductNotFoundException {
     CustomerId customerId = TEST_CUSTOMER_ID;
     ProductId productId = TEST_PRODUCT_1.id();
     int quantity = 5;
@@ -84,14 +80,14 @@ class CartsControllerTest {
     when(addToCartUseCase.addToCart(customerId, productId, quantity)).thenReturn(cart);
 
     Response response =
-      given()
-        .port(port)
-        .queryParam("productId", productId.value())
-        .queryParam("quantity", quantity)
-        .post("/carts/" + customerId.value() + "/line-items")
-        .then()
-        .extract()
-        .response();
+        given()
+            .port(port)
+            .queryParam("productId", productId.value())
+            .queryParam("quantity", quantity)
+            .post("/carts/" + customerId.value() + "/line-items")
+            .then()
+            .extract()
+            .response();
 
     assertThatResponseIsCart(response, cart);
   }
@@ -103,60 +99,60 @@ class CartsControllerTest {
     int quantity = 5;
 
     Response response =
-      given()
-        .port(port)
-        .queryParam("productId", productId)
-        .queryParam("quantity", quantity)
-        .post("/carts/" + customerId.value() + "/line-items")
-        .then()
-        .extract()
-        .response();
+        given()
+            .port(port)
+            .queryParam("productId", productId)
+            .queryParam("quantity", quantity)
+            .post("/carts/" + customerId.value() + "/line-items")
+            .then()
+            .extract()
+            .response();
 
     assertThatResponseIsError(response, BAD_REQUEST, "Invalid 'productId'");
   }
 
   @Test
   void givenProductNotFound_addLineItem_returnsAnError()
-    throws NotEnoughItemsInStockException, ProductNotFoundException {
+      throws NotEnoughItemsInStockException, ProductNotFoundException {
     CustomerId customerId = TEST_CUSTOMER_ID;
     ProductId productId = ProductId.randomProductId();
     int quantity = 5;
 
     when(addToCartUseCase.addToCart(customerId, productId, quantity))
-      .thenThrow(new ProductNotFoundException());
+        .thenThrow(new ProductNotFoundException());
 
     Response response =
-      given()
-        .port(port)
-        .queryParam("productId", productId.value())
-        .queryParam("quantity", quantity)
-        .post("/carts/" + customerId.value() + "/line-items")
-        .then()
-        .extract()
-        .response();
+        given()
+            .port(port)
+            .queryParam("productId", productId.value())
+            .queryParam("quantity", quantity)
+            .post("/carts/" + customerId.value() + "/line-items")
+            .then()
+            .extract()
+            .response();
 
     assertThatResponseIsError(response, BAD_REQUEST, "The requested product does not exist");
   }
 
   @Test
   void givenNotEnoughItemsInStock_addLineItem_returnsAnError()
-    throws NotEnoughItemsInStockException, ProductNotFoundException {
+      throws NotEnoughItemsInStockException, ProductNotFoundException {
     CustomerId customerId = TEST_CUSTOMER_ID;
     ProductId productId = ProductId.randomProductId();
     int quantity = 5;
 
     when(addToCartUseCase.addToCart(customerId, productId, quantity))
-      .thenThrow(new NotEnoughItemsInStockException("Not enough items in stock", 2));
+        .thenThrow(new NotEnoughItemsInStockException("Not enough items in stock", 2));
 
     Response response =
-      given()
-        .port(port)
-        .queryParam("productId", productId.value())
-        .queryParam("quantity", quantity)
-        .post("/carts/" + customerId.value() + "/line-items")
-        .then()
-        .extract()
-        .response();
+        given()
+            .port(port)
+            .queryParam("productId", productId.value())
+            .queryParam("quantity", quantity)
+            .post("/carts/" + customerId.value() + "/line-items")
+            .then()
+            .extract()
+            .response();
 
     assertThatResponseIsError(response, BAD_REQUEST, "Only 2 items in stock");
   }

@@ -10,9 +10,7 @@ import com.lucienvirecourt.coreservice.model.cart.Cart;
 import com.lucienvirecourt.coreservice.model.cart.NotEnoughItemsInStockException;
 import com.lucienvirecourt.coreservice.model.customer.CustomerId;
 import com.lucienvirecourt.coreservice.model.product.Product;
-
 import java.util.Optional;
-
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -32,7 +30,7 @@ class GetCartServiceTest {
     persistedCart.addProduct(TEST_PRODUCT_2, 5);
 
     Mockito.when(cartRepository.findByCustomerId(TEST_CUSTOMER_ID))
-      .thenReturn(Optional.of(persistedCart));
+        .thenReturn(Optional.of(persistedCart));
 
     Cart cart = getCartService.getCart(TEST_CUSTOMER_ID);
 

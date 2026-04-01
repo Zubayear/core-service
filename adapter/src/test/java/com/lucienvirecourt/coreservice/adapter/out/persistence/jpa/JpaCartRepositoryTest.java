@@ -6,5 +6,4 @@ import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
 @ActiveProfiles("test-with-postgresql")
-class JpaCartRepositoryTest extends AbstractCartRepositoryTest {
-}
+class JpaCartRepositoryTest extends AbstractCartRepositoryTest {}

@@ -5,5 +5,4 @@ package com.lucienvirecourt.coreservice.application.port.in.cart;
  *
  * @author Syed Ibna Zubaeyar
  */
-public class ProductNotFoundException extends Exception {
-}
+public class ProductNotFoundException extends Exception {}

@@ -11,10 +11,8 @@ import com.lucienvirecourt.coreservice.model.cart.CartLineItem;
 import com.lucienvirecourt.coreservice.model.cart.NotEnoughItemsInStockException;
 import com.lucienvirecourt.coreservice.model.customer.CustomerId;
 import com.lucienvirecourt.coreservice.model.product.Product;
-
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +24,9 @@ public abstract class AbstractCartRepositoryTest {
 
   private static final AtomicInteger CUSTOMER_ID_SEQUENCE_GENERATOR = new AtomicInteger();
 
-  @Autowired
-  CartRepository cartRepository;
+  @Autowired CartRepository cartRepository;
 
-  @Autowired
-  ProductRepository productRepository;
+  @Autowired ProductRepository productRepository;
 
   @BeforeEach
   void initRepositories() {
@@ -53,7 +49,7 @@ public abstract class AbstractCartRepositoryTest {
 
   @Test
   void givenPersistedCartWithProduct_findByCustomerId_returnsTheAppropriateCart()
-    throws NotEnoughItemsInStockException {
+      throws NotEnoughItemsInStockException {
     CustomerId customerId = createUniqueCustomerId();
 
     Cart persistedCart = new Cart(customerId);
@@ -71,8 +67,8 @@ public abstract class AbstractCartRepositoryTest {
 
   @Test
   void
-  givenExistingCartWithProduct_andGivenANewCartForTheSameCustomer_saveCart_overwritesTheExistingCart()
-    throws NotEnoughItemsInStockException {
+      givenExistingCartWithProduct_andGivenANewCartForTheSameCustomer_saveCart_overwritesTheExistingCart()
+          throws NotEnoughItemsInStockException {
     CustomerId customerId = createUniqueCustomerId();
 
     Cart existingCart = new Cart(customerId);
@@ -93,7 +89,7 @@ public abstract class AbstractCartRepositoryTest {
 
   @Test
   void givenExistingCartWithProduct_addProductAndSaveCart_updatesTheExistingCart()
-    throws NotEnoughItemsInStockException {
+      throws NotEnoughItemsInStockException {
     CustomerId customerId = createUniqueCustomerId();
 
     Cart existingCart = new Cart(customerId);
@@ -108,8 +104,8 @@ public abstract class AbstractCartRepositoryTest {
     assertThat(cart).isNotEmpty();
     assertThat(cart.get().id()).isEqualTo(customerId);
     assertThat(cart.get().lineItems())
-      .map(CartLineItem::product)
-      .containsExactlyInAnyOrder(TEST_PRODUCT_1, TEST_PRODUCT_2);
+        .map(CartLineItem::product)
+        .containsExactlyInAnyOrder(TEST_PRODUCT_1, TEST_PRODUCT_2);
   }
 
   @Test

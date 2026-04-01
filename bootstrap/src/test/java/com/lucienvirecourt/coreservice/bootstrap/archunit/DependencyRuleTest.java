@@ -35,14 +35,14 @@ class DependencyRuleTest {
   }
 
   private void checkNoDependencyFromTo(
-    String fromPackage, String toPackage, JavaClasses classesToCheck) {
+      String fromPackage, String toPackage, JavaClasses classesToCheck) {
     noClasses()
-      .that()
-      .resideInAPackage(fullyQualified(fromPackage))
-      .should()
-      .dependOnClassesThat()
-      .resideInAPackage(fullyQualified(toPackage))
-      .check(classesToCheck);
+        .that()
+        .resideInAPackage(fullyQualified(fromPackage))
+        .should()
+        .dependOnClassesThat()
+        .resideInAPackage(fullyQualified(toPackage))
+        .check(classesToCheck);
   }
 
   private String fullyQualified(String packageName) {

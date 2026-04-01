@@ -1,7 +1,6 @@
 package com.lucienvirecourt.coreservice.application.port.in.product;
 
 import com.lucienvirecourt.coreservice.model.product.Product;
-
 import java.util.List;
 
 /**

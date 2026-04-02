@@ -19,6 +19,7 @@ spring:
 
 # ── Dev Logging ──
 logging:
+  config: classpath:log4j2-spring.xml
   level:
     root: INFO
     com.lucienvirecourt: TRACE

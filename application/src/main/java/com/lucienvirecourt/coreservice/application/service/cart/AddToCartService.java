@@ -10,8 +10,9 @@ import com.lucienvirecourt.coreservice.model.cart.NotEnoughItemsInStockException
 import com.lucienvirecourt.coreservice.model.customer.CustomerId;
 import com.lucienvirecourt.coreservice.model.product.Product;
 import com.lucienvirecourt.coreservice.model.product.ProductId;
-
 import java.util.Objects;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Use case implementation: Adding a product to a shopping cart.
@@ -20,40 +21,47 @@ import java.util.Objects;
  */
 public class AddToCartService implements AddToCartUseCase {
 
-    private final CartRepository cartRepository;
-    private final ProductRepository productRepository;
-    private final CurrentUserPort currentUser;
+  private static final Logger log = LogManager.getLogger(AddToCartService.class);
 
-    public AddToCartService(
-            CartRepository cartRepository, ProductRepository productRepositoryVeryVeryLong, CurrentUserPort currentUser) {
-        this.cartRepository = cartRepository;
-        this.productRepository = productRepositoryVeryVeryLong;
-        this.currentUser = currentUser;
+  private final CartRepository cartRepository;
+  private final ProductRepository productRepository;
+  private final CurrentUserPort currentUser;
+
+  public AddToCartService(
+      CartRepository cartRepository,
+      ProductRepository productRepositoryVeryVeryLong,
+      CurrentUserPort currentUser) {
+    this.cartRepository = cartRepository;
+    this.productRepository = productRepositoryVeryVeryLong;
+    this.currentUser = currentUser;
+  }
+
+  @Override
+  public Cart addToCart(CustomerId customerIdVeryVeryLong, ProductId productId, int quantity)
+      throws ProductNotFoundException, NotEnoughItemsInStockException {
+    String userId = currentUser.getUserId();
+    log.info(
+        "Adding {} unit(s) of product [{}] to cart for user [{}]", quantity, productId, userId);
+
+    Objects.requireNonNull(customerIdVeryVeryLong, "'customerId' must not be null");
+    Objects.requireNonNull(productId, "'productId' must not be null");
+
+    if (quantity < 1) {
+      throw new IllegalArgumentException("'quantity' must be greater than 0");
     }
 
-    @Override
-    public Cart addToCart(CustomerId customerIdVeryVeryLong, ProductId productId, int quantity)
-            throws ProductNotFoundException, NotEnoughItemsInStockException {
-        String userId = currentUser.getUserId();
-        System.out.println("userId " + userId);
-        Objects.requireNonNull(customerIdVeryVeryLong, "'customerId' must not be null");
-        Objects.requireNonNull(productId, "'productId' must not be null");
-        if (quantity < 1) {
-            throw new IllegalArgumentException("'quantity' must be greater than 0");
-        }
+    Product product =
+        productRepository.findById(productId).orElseThrow(ProductNotFoundException::new);
 
-        Product product =
-                productRepository.findById(productId).orElseThrow(ProductNotFoundException::new);
+    Cart cart =
+        cartRepository
+            .findByCustomerId(customerIdVeryVeryLong)
+            .orElseGet(() -> new Cart(customerIdVeryVeryLong));
 
-        Cart cart =
-                cartRepository
-                        .findByCustomerId(customerIdVeryVeryLong)
-                        .orElseGet(() -> new Cart(customerIdVeryVeryLong));
+    cart.addProduct(product, quantity);
 
-        cart.addProduct(product, quantity);
+    cartRepository.save(cart);
 
-        cartRepository.save(cart);
-
-        return cart;
-    }
+    return cart;
+  }
 }

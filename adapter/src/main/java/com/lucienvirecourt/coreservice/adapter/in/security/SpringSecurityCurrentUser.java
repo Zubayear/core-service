@@ -8,26 +8,26 @@ import org.springframework.stereotype.Component;
 @Component
 public class SpringSecurityCurrentUser implements CurrentUserPort {
 
-    private GatewayPrincipal getPrincipal() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication instanceof GatewayAuthenticationToken token) {
-            return (GatewayPrincipal) token.getPrincipal();
-        }
-        throw new IllegalStateException("No gateway authentication found");
+  private GatewayPrincipal getPrincipal() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (authentication instanceof GatewayAuthenticationToken token) {
+      return (GatewayPrincipal) token.getPrincipal();
     }
+    throw new IllegalStateException("No gateway authentication found");
+  }
 
-    @Override
-    public String getUserId() {
-        return getPrincipal().userId();
-    }
+  @Override
+  public String getUserId() {
+    return getPrincipal().userId();
+  }
 
-    @Override
-    public String getTenantId() {
-        return getPrincipal().tenantId();
-    }
+  @Override
+  public String getTenantId() {
+    return getPrincipal().tenantId();
+  }
 
-    @Override
-    public boolean hasRole(String role) {
-        return getPrincipal().roles().contains(role);
-    }
+  @Override
+  public boolean hasRole(String role) {
+    return getPrincipal().roles().contains(role);
+  }
 }

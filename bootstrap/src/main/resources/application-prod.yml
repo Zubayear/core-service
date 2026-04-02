@@ -23,6 +23,7 @@ spring:
 
 # ── Production Logging ──
 logging:
+  config: classpath:log4j2-spring-prod.xml
   level:
     root: WARN
     com.lucienvirecourt: INFO

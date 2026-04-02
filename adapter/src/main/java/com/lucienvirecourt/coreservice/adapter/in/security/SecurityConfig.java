@@ -15,25 +15,25 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private final GatewayAuthenticationFilter gatewayAuthenticationFilter;
+  private final GatewayAuthenticationFilter gatewayAuthenticationFilter;
 
-    public SecurityConfig(GatewayAuthenticationFilter gatewayAuthenticationFilter) {
-        this.gatewayAuthenticationFilter = gatewayAuthenticationFilter;
-    }
+  public SecurityConfig(GatewayAuthenticationFilter gatewayAuthenticationFilter) {
+    this.gatewayAuthenticationFilter = gatewayAuthenticationFilter;
+  }
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(AbstractHttpConfigurer::disable)                    // gateway handles CSRF
-                .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/actuator/**").permitAll()  // health checks
-                        .anyRequest().authenticated()
-                )
-                .addFilterBefore(gatewayAuthenticationFilter,
-                        UsernamePasswordAuthenticationFilter.class);
+  @Bean
+  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http.csrf(AbstractHttpConfigurer::disable) // gateway handles CSRF
+        .sessionManagement(
+            session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .authorizeHttpRequests(
+            auth ->
+                auth.requestMatchers("/actuator/**")
+                    .permitAll() // health checks
+                    .anyRequest()
+                    .authenticated())
+        .addFilterBefore(gatewayAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
-        return http.build();
-    }
+    return http.build();
+  }
 }

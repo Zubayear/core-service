@@ -24,32 +24,29 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class SpringAppConfig {
 
-    @Autowired
-    CartRepository cartRepository;
+  @Autowired CartRepository cartRepository;
 
-    @Autowired
-    ProductRepository productRepository;
+  @Autowired ProductRepository productRepository;
 
-    @Autowired
-    CurrentUserPort currentUserPort;
+  @Autowired CurrentUserPort currentUserPort;
 
-    @Bean
-    GetCartUseCase getCartUseCase() {
-        return new GetCartService(cartRepository);
-    }
+  @Bean
+  GetCartUseCase getCartUseCase() {
+    return new GetCartService(cartRepository);
+  }
 
-    @Bean
-    EmptyCartUseCase emptyCartUseCase() {
-        return new EmptyCartService(cartRepository);
-    }
+  @Bean
+  EmptyCartUseCase emptyCartUseCase() {
+    return new EmptyCartService(cartRepository);
+  }
 
-    @Bean
-    FindProductsUseCase findProductsUseCase() {
-        return new FindProductsService(productRepository);
-    }
+  @Bean
+  FindProductsUseCase findProductsUseCase() {
+    return new FindProductsService(productRepository);
+  }
 
-    @Bean
-    AddToCartUseCase addToCartUseCase() {
-        return new AddToCartService(cartRepository, productRepository, currentUserPort);
-    }
+  @Bean
+  AddToCartUseCase addToCartUseCase() {
+    return new AddToCartService(cartRepository, productRepository, currentUserPort);
+  }
 }
